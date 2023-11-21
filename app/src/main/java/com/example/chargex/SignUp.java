@@ -2,6 +2,7 @@ package com.example.chargex;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -33,4 +34,8 @@ public class SignUp extends AppCompatActivity {
         doc.set(user);
     }
 
+    public void LogIn(View v){
+        Intent login=new Intent(getApplicationContext(),LogIn.class);
+        startActivity(login);
+    }
 }
