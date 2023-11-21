@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@drawable/bb"
     tools:context=".SignUp">
 
@@ -11,15 +11,14 @@
         android:id="@+id/SignUpEmailAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_marginTop="36dp"
-
-        android:layout_marginTop="148dp"
- 
+        android:layout_marginTop="220dp"
         android:ems="10"
+
         android:inputType="textEmailAddress"
+        android:text="Enter your email"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -27,39 +26,39 @@
         android:id="@+id/SignUpPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
         android:ems="10"
+        android:text="password"
         android:inputType="textPassword"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
+        app:layout_constraintHorizontal_bias="0.442"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SignUpEmailAddress"
-        app:layout_constraintVertical_bias="0.149" />
+        app:layout_constraintVertical_bias="0.185" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="220dp"
+        android:layout_marginTop="44dp"
         android:onClick="SignUp"
         android:text="SignUp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="parent"
-HEAD
         app:layout_constraintTop_toBottomOf="@+id/SignUpPassword" />
 
     <Button
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="89dp"
+        android:layout_marginTop="68dp"
         android:onClick="LogIn"
         android:text="Have an account Login!"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 

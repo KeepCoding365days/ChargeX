@@ -59,5 +59,10 @@ public class LogIn extends AppCompatActivity {
         });
 
     }
+    public void signUp(View v){
+        Intent profile=new Intent(getApplicationContext(),SignUp.class);
+        startActivity(profile);
+    }
+
 
 }
