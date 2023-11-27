@@ -80,7 +80,26 @@ public class Station {
     public String Encrypt(String pw){
         char[] arr=pw.toCharArray();
         for(int i=0;i<arr.length;i++){
-            arr[i]=(char)(((int) arr[i])+2);
+            if(i%3==0) {
+                if(i<6)
+                    arr[i]=(char)(((int) arr[i])-i);
+                else
+                    arr[i]=(char)(((int) arr[i])-5);
+            }
+            else if(i%3==1){
+                if(i<5)
+                    arr[i]=(char)(((int) arr[i])-3);
+                else
+                    arr[i]=(char)(((int) arr[i])-4);
+            }
+            else {
+                if(i%2==0){
+                    arr[i]=(char)(((int) arr[i])-2);
+                }
+                else
+                    arr[i]=(char)(((int) arr[i])-1);
+            }
+
         }
         pw=String.valueOf(arr);
         return pw;
@@ -89,7 +108,26 @@ public class Station {
     public String Decrypt(String pw){
         char[] arr=pw.toCharArray();
         for(int i=0;i<arr.length;i++){
-            arr[i]=(char)(((int) arr[i])-2);
+            if(i%3==0) {
+                if(i<6)
+                    arr[i]=(char)(((int) arr[i])+i);
+                else
+                    arr[i]=(char)(((int) arr[i])+5);
+            }
+            else if(i%3==1){
+                if(i<5)
+                    arr[i]=(char)(((int) arr[i])+3);
+                else
+                    arr[i]=(char)(((int) arr[i])+4);
+            }
+            else {
+                if(i%2==0){
+                    arr[i]=(char)(((int) arr[i])+2);
+                }
+                else
+                    arr[i]=(char)(((int) arr[i])+1);
+            }
+
         }
         pw=String.valueOf(arr);
         return pw;

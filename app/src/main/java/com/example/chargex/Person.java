@@ -59,7 +59,27 @@ public class Person {
     public String Encrypt(String pw){
         char[] arr=pw.toCharArray();
         for(int i=0;i<arr.length;i++){
-            arr[i]=(char)(((int) arr[i])+2);
+
+            if(i%3==0) {
+                if(i<6)
+                arr[i]=(char)(((int) arr[i])-i);
+                else
+                    arr[i]=(char)(((int) arr[i])-5);
+            }
+            else if(i%3==1){
+                if(i<5)
+                arr[i]=(char)(((int) arr[i])-3);
+                else
+                    arr[i]=(char)(((int) arr[i])-4);
+            }
+            else {
+                if(i%2==0){
+                    arr[i]=(char)(((int) arr[i])-2);
+                }
+                else
+                    arr[i]=(char)(((int) arr[i])-1);
+            }
+
         }
         pw=arr.toString();
         return pw;
@@ -68,7 +88,25 @@ public class Person {
     public String Decrypt(String pw){
         char[] arr=pw.toCharArray();
         for(int i=0;i<arr.length;i++){
-            arr[i]=(char)(((int) arr[i])-2);
+            if(i%3==0) {
+                if(i<6)
+                    arr[i]=(char)(((int) arr[i])+i);
+                else
+                    arr[i]=(char)(((int) arr[i])+5);
+            }
+            else if(i%3==1){
+                if(i<5)
+                    arr[i]=(char)(((int) arr[i])+3);
+                else
+                    arr[i]=(char)(((int) arr[i])+4);
+            }
+            else {
+                if(i%2==0){
+                    arr[i]=(char)(((int) arr[i])+2);
+                }
+                else
+                    arr[i]=(char)(((int) arr[i])+1);
+            }
         }
         pw=arr.toString();
         return pw;
