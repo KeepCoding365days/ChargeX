@@ -44,7 +44,7 @@ public class Station {
         this.contactNumber=number;
     }
     public void setPassword(String pw){
-        this.password=Encrypt(pw);
+        this.password=pw;
     }
     public void setAddress(String address){
         this.address=address;
@@ -82,7 +82,7 @@ public class Station {
         for(int i=0;i<arr.length;i++){
             arr[i]=(char)(((int) arr[i])+2);
         }
-        pw=arr.toString();
+        pw=String.valueOf(arr);
         return pw;
     }
 
@@ -91,11 +91,11 @@ public class Station {
         for(int i=0;i<arr.length;i++){
             arr[i]=(char)(((int) arr[i])-2);
         }
-        pw=arr.toString();
+        pw=String.valueOf(arr);
         return pw;
     }
 
-    public void getAccount(String name){
+    public void getAccount(String name,callback async){
 
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         DocumentReference doc=db.collection("Station").document(name);
@@ -130,22 +130,27 @@ public class Station {
                             setNumber(data.get("contactNumber").toString());
                         }
                         if(data.containsKey("password")){
-                            setNumber(Decrypt(data.get("password").toString()));
+                            setPassword(Decrypt(data.get("password").toString()));
                         }
+                        async.onSuccess("Data set!");
                     }
                     else{
-
+                        async.onFailure(new Exception("Document not found!"));
                     }
+                }
+                else{
+                    async.onFailure(task.getException());
                 }
             }
         });
+
     }
     public void setData(){
         Map<String,Object> data=new HashMap<>();
         data.put("email",this.getEmail());
         data.put("name",this.getName());
         data.put("address",this.getAddress());
-        data.put("password",this.getPassword());
+        data.put("password",Encrypt(this.getPassword()));
         data.put("contactNumber",this.getContactNumber());
         data.put("longitude",this.getLongitude());
         data.put("latitude",this.getLatitude());

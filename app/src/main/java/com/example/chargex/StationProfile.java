@@ -1,5 +1,7 @@
 package com.example.chargex;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +16,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class SellerProfile extends AppCompatActivity implements OnMapReadyCallback {
+public class StationProfile extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap map;
     private LatLng stationLocation;
@@ -22,7 +24,7 @@ public class SellerProfile extends AppCompatActivity implements OnMapReadyCallba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_seller_profile);
+        setContentView(R.layout.activity_station_profile);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -55,7 +57,7 @@ public class SellerProfile extends AppCompatActivity implements OnMapReadyCallba
         if(stationLocation!=null) {
             station.setLongitude(stationLocation.latitude);
             station.setLatitude(stationLocation.longitude);//set longitude and latitude here
-
+            //Log.d(TAG,"Longitude is "+ station.getLongitude());
         }
         //add name,email,address,contact Number text fields and update btn in activity_seller_profile.xml
 
