@@ -13,17 +13,28 @@
         android:theme="@style/Theme.ChargeX"
         tools:targetApi="31">
         <activity
-            android:name=".Profile"
+            android:name=".StationIndex"
+            android:exported="false" />
+        <activity
+            android:name=".StationLogin"
+            android:exported="false" />
+        <activity
+            android:name=".SellerReg"
             android:exported="false"
-            android:label="@string/title_activity_profile"
-            android:theme="@style/Theme.ChargeX" />
+            android:label="@string/title_activity_seller_reg"
+            android:theme="@style/Theme.ChargeX.NoActionBar" />
+        <activity
+            android:name=".Selector"
+            android:exported="false" />
+        <activity
+            android:name=".Profile"
+            android:exported="false" />
         <activity
             android:name=".LogIn"
             android:exported="false" />
         <activity
             android:name=".SignUp"
             android:exported="false" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true"

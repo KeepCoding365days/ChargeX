@@ -1,5 +1,6 @@
 package com.example.chargex
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,10 +14,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.chargex.ui.theme.ChargeXTheme
 
+
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val i = Intent(applicationContext,SignUp::class.java)
+        val preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE)
+        val editor = preferences.edit()
+        editor.putString("loggedIn", "False")
+        editor.apply()
+
+        val i = Intent(applicationContext,Selector::class.java)
         startActivity(i)
         setContent {
             ChargeXTheme {

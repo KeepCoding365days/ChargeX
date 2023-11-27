@@ -1,53 +1,55 @@
 package com.example.chargex;
 
-import android.os.Bundle;
-
-import com.google.android.material.snackbar.Snackbar;
+import static android.content.ContentValues.TAG;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-
-import androidx.core.view.WindowCompat;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.example.chargex.databinding.ActivityProfileBinding;
+import android.widget.TextView;
 
 public class Profile extends AppCompatActivity {
-
-    private AppBarConfiguration appBarConfiguration;
-    private ActivityProfileBinding binding;
-
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        String username=preferences.getString("username","");
+        user=new User();
+        user.getAccount(username);
 
-        binding = ActivityProfileBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        setSupportActionBar(binding.toolbar);
-
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_profile);
-        appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-
-        binding.fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAnchorView(R.id.fab)
-                        .setAction("Action", null).show();
-            }
-        });
+        setContentView(R.layout.activity_profile);
     }
+    public void update(View v) {
+        SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        String username=preferences.getString("username","");
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_profile);
-        return NavigationUI.navigateUp(navController, appBarConfiguration)
-                || super.onSupportNavigateUp();
+        Log.d(TAG,"saved email"+username);
+        //user.getAccount(username);
+        //Thread.sleep(1000);
+        Log.d(TAG,"data fetched");
+        TextView dummy=findViewById(R.id.Name);
+        if(user.getName()!=null) {
+            dummy.setText(user.getName());
+        }
+        dummy=findViewById(R.id.email);
+        if(user.getEmail()!=null) {
+            dummy.setText(user.getEmail());
+        }
+
+        dummy = findViewById(R.id.cnic);
+        if(user.getCnic()!=null) {
+            dummy.setText(user.getCnic());
+        }
+        dummy=findViewById(R.id.DoB);
+        if(user.getDateOfBirth()!=null) {
+            dummy.setText(user.getDateOfBirth());
+        }
+        Log.d(TAG,"data set");
     }
 }

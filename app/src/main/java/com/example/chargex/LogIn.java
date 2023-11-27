@@ -5,7 +5,9 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -45,9 +47,13 @@ public class LogIn extends AppCompatActivity {
                         Log.d(TAG,"password is:"+pass);
                         Log.d(TAG,"user enterd:"+pw);
                         if (pass.equals(pw)){
+                            SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("loggedIn", "True");
+                            editor.putString("username",email);
+                            editor.apply();
                             Intent profile=new Intent(getApplicationContext(),Profile.class);
                             startActivity(profile);
-
                             Log.d(TAG,"password checked");
                         }
                         else {

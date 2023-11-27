@@ -32,6 +32,8 @@ public class SignUp extends AppCompatActivity {
         user.put("password",pw);
         DocumentReference doc= db.collection("Person").document(email);
         doc.set(user);
+        Intent login=new Intent(getApplicationContext(),LogIn.class);
+        startActivity(login);
     }
 
     public void LogIn(View v){
