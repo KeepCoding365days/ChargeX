@@ -13,7 +13,7 @@
         android:theme="@style/Theme.ChargeX"
         tools:targetApi="31">
         <activity
-            android:name=".StationProfile"
+            android:name=".MainActivity"
             android:exported="false" />
         <activity
             android:name=".StationIndex"
@@ -39,7 +39,7 @@
             android:name=".SignUp"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".StationProfile"
             android:exported="true"
             android:label="@string/app_name"
             android:theme="@style/Theme.ChargeX">
