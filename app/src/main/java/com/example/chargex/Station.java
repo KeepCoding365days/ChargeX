@@ -32,6 +32,7 @@ public class Station {
         password="";
         address="";
         avg_rating=0.0;
+
     }
     public void setName(String name){
         this.name=name;
