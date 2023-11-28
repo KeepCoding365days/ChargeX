@@ -46,6 +46,10 @@ public class VerifyStations extends AppCompatActivity {
     }
 
     public void location_view(View v){
+        Intent i=new Intent(this,ViewLocation.class);
+        i.putExtra("longitude",stationList.get(count).getLongitude());
+        i.putExtra("latitude",stationList.get(count).getLatitude());
+        startActivity(i);
     }
 
 

@@ -3,7 +3,10 @@ package com.example.chargex;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -14,6 +17,8 @@ public class ViewLocation extends AppCompatActivity implements OnMapReadyCallbac
     private LatLng location;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Intent i=getIntent();
+        location = new LatLng(i.getDoubleExtra("latitude", 31.54), i.getDoubleExtra("longitude", 74.34));
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_location);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -29,5 +34,8 @@ public class ViewLocation extends AppCompatActivity implements OnMapReadyCallbac
                     .position(location)
                     .title("here"));
         }
+    }
+    public void finish(View v){
+        finish();
     }
 }

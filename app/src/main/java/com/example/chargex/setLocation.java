@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -68,11 +69,13 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
                             station.setLongitude(stationLocation.latitude);
                             station.setLatitude(stationLocation.longitude);
                             station.setData();
+                            //goProfile();
                         }
 
                         @Override
                         public void onFailure(Exception e) {
                             Log.d(TAG,"station fetching failed");
+                            //goProfile();
                         }
                     });
                     //Log.d(TAG,"Longitude is "+ station.getLongitude());
@@ -82,5 +85,10 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
         //add name,email,address,contact Number text fields and update btn in activity_seller_profile.xml
 
     }
+    public void goProfile(){
+        Intent i=new Intent(getApplicationContext(),StationProfile.class);
+        startActivity(i);
+    }
+
 
 }
