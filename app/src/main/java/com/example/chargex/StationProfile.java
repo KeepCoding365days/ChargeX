@@ -5,6 +5,8 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -57,7 +59,23 @@ public class StationProfile extends AppCompatActivity implements OnMapReadyCallb
         if(stationLocation!=null) {
             station.setLongitude(stationLocation.latitude);
             station.setLatitude(stationLocation.longitude);//set longitude and latitude here
-            //Log.d(TAG,"Longitude is "+ station.getLongitude());
+            SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
+            String username=preferences.getString("username","");
+            Log.d(TAG,"username is:"+username);
+            station.getAccount(username, new callback() {
+                        @Override
+                        public void onSuccess(String result) {
+                            station.setLongitude(stationLocation.latitude);
+                            station.setLatitude(stationLocation.longitude);
+                            station.setData();
+                        }
+
+                        @Override
+                        public void onFailure(Exception e) {
+                            Log.d(TAG,"station fetching failed");
+                        }
+                    });
+                    //Log.d(TAG,"Longitude is "+ station.getLongitude());
         }
         //add name,email,address,contact Number text fields and update btn in activity_seller_profile.xml
 
