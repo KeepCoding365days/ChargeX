@@ -14,6 +14,7 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 
 import java.util.HashMap;
 import java.util.Map;
+import android.widget.Toast;
 
 public class Station {
     private String email;
@@ -185,6 +186,8 @@ public class Station {
     }
     public void setData(){
         Map<String,Object> data=new HashMap<>();
+        String email=this.getEmail();
+
         data.put("email",this.getEmail());
         data.put("name",this.getName());
         data.put("address",this.getAddress());
