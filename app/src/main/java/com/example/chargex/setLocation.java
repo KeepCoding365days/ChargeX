@@ -46,7 +46,7 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
                 // Move camera to Lahore with the specified zoom level
                ;
                 map.clear();
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(lahore, zoom));
+
 
                 stationLocation=latLng;
                 map.addMarker(new MarkerOptions()

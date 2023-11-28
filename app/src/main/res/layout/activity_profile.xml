@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bb"
+    android:background="@drawable/background"
     tools:context=".Profile">
 
     <EditText
@@ -14,8 +14,11 @@
         android:layout_marginTop="84dp"
         android:layout_marginBottom="43dp"
         android:ems="10"
+        android:hint="Your Name"
+
         android:inputType="text"
-        android:text="Your Name"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/email"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -29,8 +32,11 @@
         android:layout_marginTop="20dp"
         android:layout_marginBottom="60dp"
         android:ems="10"
+        android:hint="Enter your date of Birth"
+
         android:inputType="date"
-        android:text="Enter your date of Birth"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/cnic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
@@ -44,8 +50,11 @@
         android:layout_marginTop="5dp"
         android:layout_marginBottom="100dp"
         android:ems="10"
+        android:hint="Enter your cnic"
+
         android:inputType="text"
-        android:text="Enter your cnic"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/ApplyChanges"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,6 +81,7 @@
         android:ems="10"
         android:inputType="textEmailAddress"
         android:text="Enter your email address"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/DoB"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
