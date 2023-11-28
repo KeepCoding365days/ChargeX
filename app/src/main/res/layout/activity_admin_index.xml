@@ -10,7 +10,10 @@
         android:id="@+id/button12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="206dp"
-        tools:layout_editor_absoluteY="119dp" />
+        android:layout_marginTop="119dp"
+        android:onClick="verify"
+        android:text="verify stations"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
