@@ -25,6 +25,7 @@ public class Station {
     private String contactNumber;
     private double avg_rating;
 
+    private String status;
     private String name;
     public Station(){
         name="";
@@ -32,6 +33,7 @@ public class Station {
         contactNumber="";
         password="";
         address="";
+        status="unVerified";
         avg_rating=0.0;
         latitude=0.0;
         longitude=0.0;
@@ -49,6 +51,9 @@ public class Station {
     public void setPassword(String pw){
         this.password=pw;
     }
+    public void setStatus(String status){
+        this.status=status;
+    }
     public void setAddress(String address){
         this.address=address;
     }
@@ -64,6 +69,9 @@ public class Station {
     }
     public String getEmail(){
         return this.email;
+    }
+    public String getStatus(){
+        return this.status;
     }
     public String getContactNumber(){
         return this.contactNumber;
@@ -173,6 +181,9 @@ public class Station {
                         if(data.containsKey("password")){
                             setPassword(Decrypt(data.get("password").toString()));
                         }
+                        if(data.containsKey("status")){
+                            setStatus(data.get("status").toString());
+                        }
                         async.onSuccess("Data set!");
                     }
                     else{
@@ -197,6 +208,7 @@ public class Station {
         data.put("contactNumber",this.getContactNumber());
         data.put("longitude",this.getLongitude());
         data.put("latitude",this.getLatitude());
+        data.put("status",this.getStatus());
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         DocumentReference doc=db.collection("Station").document(this.getName());
         doc.set(data);

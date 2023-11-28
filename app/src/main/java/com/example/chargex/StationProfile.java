@@ -2,85 +2,78 @@ package com.example.chargex;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-public class StationProfile extends AppCompatActivity implements OnMapReadyCallback {
-
-    private GoogleMap map;
-    private LatLng stationLocation;
-
+public class StationProfile extends AppCompatActivity {
+    private Station station;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        station= new Station();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station_profile);
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
+        set();
     }
 
-    public void onMapReady(@NonNull GoogleMap googleMap){
-        map=googleMap;
-        LatLng lahore=new LatLng(31.5497,74.3436);
-        float zoom=15.0f;
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(lahore, zoom));
-        map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+    public void set() {
+        SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        String username = preferences.getString("username", "");
+
+        station.getAccount(username, new callback() {
             @Override
-            public void onMapClick(@NonNull LatLng latLng) {
-                // You can adjust the zoom level as needed
+            public void onSuccess(String result) {
+                TextView dummy = findViewById(R.id.stationName);
+                if (station.getName() != null && !station.getName().equals("")) {
+                    dummy.setText(station.getName());
+                }
+                dummy = findViewById(R.id.stationEmail);
+                if (station.getEmail() != null&& !station.getName().equals("")) {
+                    dummy.setText(station.getEmail());
+                }
 
-                // Move camera to Lahore with the specified zoom level
-               ;
-                map.clear();
-                map.moveCamera(CameraUpdateFactory.newLatLngZoom(lahore, zoom));
+                dummy = findViewById(R.id.stationAddress);
+                if (station.getAddress() != null && !station.getAddress().equals("") ) {
+                    dummy.setText(station.getAddress());
+                }
+                dummy = findViewById(R.id.stationPhone);
+                if (station.getContactNumber() != null&& !station.getContactNumber().equals("")) {
+                    dummy.setText(station.getContactNumber());
+                }
+            }
 
-                stationLocation=latLng;
-                map.addMarker(new MarkerOptions()
-                        .position(stationLocation)
-                        .title("station"));
+            @Override
+            public void onFailure(Exception e) {
+
             }
         });
     }
-    public void apply(View v){
-        Station station=new Station();
-        if(stationLocation!=null) {
-            station.setLongitude(stationLocation.latitude);
-            station.setLatitude(stationLocation.longitude);//set longitude and latitude here
-            SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
-            String username=preferences.getString("username","");
-            Log.d(TAG,"username is:"+username);
-            station.getAccount(username, new callback() {
-                        @Override
-                        public void onSuccess(String result) {
-                            station.setLongitude(stationLocation.latitude);
-                            station.setLatitude(stationLocation.longitude);
-                            station.setData();
-                        }
-
-                        @Override
-                        public void onFailure(Exception e) {
-                            Log.d(TAG,"station fetching failed");
-                        }
-                    });
-                    //Log.d(TAG,"Longitude is "+ station.getLongitude());
-
-        }
-
-        //add name,email,address,contact Number text fields and update btn in activity_seller_profile.xml
+    public void update(View v){
+        TextView t=findViewById(R.id.stationName);
+        station.setName(t.getText().toString());
+        t=findViewById(R.id.stationAddress);
+        station.setAddress(t.getText().toString());
+        t=findViewById(R.id.stationEmail);
+        station.setEmail(t.getText().toString());
+        t=findViewById(R.id.stationPhone);
+        station.setNumber(t.getText().toString());
+        station.setData();
+        Intent idx=new Intent(getApplicationContext(),StationIndex.class);
+        startActivity(idx);
 
     }
+    public void setLocation(View v){
+        Intent loc=new Intent(getApplicationContext(),setLocation.class);
+        startActivity(loc);
+    }
+
+
 
 }
