@@ -41,6 +41,11 @@ public class VerifyStations extends AppCompatActivity {
     public void verify(View v){
         stationList.get(count).setStatus("verified");
         stationList.get(count).setData();
+        Intent i=new Intent(getApplicationContext(), VerifyStations.class);
+        startActivity(i);
+    }
+
+    public void location_view(View v){
     }
 
 
