@@ -28,7 +28,7 @@ public class Person {
         this.contactNumber=number;
     }
     public void setPassword(String pw){
-        this.password=Encrypt(pw);
+        this.password=pw;
     }
     public void setDoB(String DoB){
         this.dateOfBirth=DoB;
@@ -81,7 +81,7 @@ public class Person {
             }
 
         }
-        pw=arr.toString();
+        pw=String.valueOf(arr);
         return pw;
     }
 
@@ -108,7 +108,7 @@ public class Person {
                     arr[i]=(char)(((int) arr[i])+1);
             }
         }
-        pw=arr.toString();
+        pw=String.valueOf(arr);
         return pw;
     }
 

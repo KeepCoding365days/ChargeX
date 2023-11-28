@@ -76,7 +76,9 @@ public class StationProfile extends AppCompatActivity implements OnMapReadyCallb
                         }
                     });
                     //Log.d(TAG,"Longitude is "+ station.getLongitude());
+
         }
+
         //add name,email,address,contact Number text fields and update btn in activity_seller_profile.xml
 
     }

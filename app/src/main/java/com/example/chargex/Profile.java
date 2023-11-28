@@ -19,37 +19,44 @@ public class Profile extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         String username=preferences.getString("username","");
-        user=new User();
-        user.getAccount(username);
-
         setContentView(R.layout.activity_profile);
+        update();
     }
-    public void update(View v) {
+    public void update() {
         SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         String username=preferences.getString("username","");
+        user=new User();
+        user.getAccount(username, new callback() {
+                    @Override
+                    public void onSuccess(String result) {
+                        TextView dummy=findViewById(R.id.Name);
+                        if(user.getName()!=null) {
+                            dummy.setText(user.getName());
+                        }
+                        dummy=findViewById(R.id.email);
+                        if(user.getEmail()!=null) {
+                            dummy.setText(user.getEmail());
+                        }
 
-        Log.d(TAG,"saved email"+username);
-        //user.getAccount(username);
-        //Thread.sleep(1000);
+                        dummy = findViewById(R.id.cnic);
+                        if(user.getCnic()!=null) {
+                            dummy.setText(user.getCnic());
+                        }
+                        dummy=findViewById(R.id.DoB);
+                        if(user.getDateOfBirth()!=null) {
+                            dummy.setText(user.getDateOfBirth());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+
+                    }
+                });
+
         Log.d(TAG,"data fetched");
-        TextView dummy=findViewById(R.id.Name);
-        if(user.getName()!=null) {
-            dummy.setText(user.getName());
-        }
-        dummy=findViewById(R.id.email);
-        if(user.getEmail()!=null) {
-            dummy.setText(user.getEmail());
-        }
 
-        dummy = findViewById(R.id.cnic);
-        if(user.getCnic()!=null) {
-            dummy.setText(user.getCnic());
-        }
-        dummy=findViewById(R.id.DoB);
-        if(user.getDateOfBirth()!=null) {
-            dummy.setText(user.getDateOfBirth());
-        }
         Log.d(TAG,"data set");
     }
 }

@@ -50,6 +50,7 @@ public class LogIn extends AppCompatActivity {
                             SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
                             SharedPreferences.Editor editor = preferences.edit();
                             editor.putString("loggedIn", "True");
+                            editor.putString("role","user");
                             editor.putString("username",email);
                             editor.apply();
                             Intent profile=new Intent(getApplicationContext(),Profile.class);

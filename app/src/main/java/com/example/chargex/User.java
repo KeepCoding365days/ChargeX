@@ -27,7 +27,7 @@ public class User extends Person {
         this.noOfBookings = noOfBookings;
     }
 
-    public void getAccount(String email){
+    public void getAccount(String email,callback async){
 
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         DocumentReference doc=db.collection("Person").document(email);
@@ -54,16 +54,23 @@ public class User extends Person {
                         if(data.containsKey("DoB")){
                             User.super.setDoB(data.get("DoB").toString());
                         }
+                        if(data.containsKey("password")){
+                            User.super.setPassword(Decrypt(data.get("password").toString()));
+                        }
                         if(data.containsKey("contactNumber")){
                             User.super.setNumber(data.get("contactNumber").toString());
                         }
                         if(data.containsKey("noOfBookings")){
                             setNoOfBookings((int)(data.get("noOfBookings")));
                         }
+                        async.onSuccess("Data set!");
                     }
                     else{
-
+                        async.onFailure(new Exception("Document not found!"));
                     }
+                }
+                else{
+                    async.onFailure(task.getException());
                 }
             }
         });
@@ -73,7 +80,7 @@ public class User extends Person {
         data.put("email",this.getEmail());
         data.put("name",this.getName());
         data.put("cnic",this.getCnic());
-        data.put("password",this.getPassword());
+        data.put("password",Encrypt(this.getPassword()));
         data.put("DoB",this.getDateOfBirth());
         data.put("contactNumber",this.getContactNumber());
         data.put("noOfBookings",this.noOfBookings);

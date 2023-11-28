@@ -33,6 +33,8 @@ public class Station {
         password="";
         address="";
         avg_rating=0.0;
+        latitude=0.0;
+        longitude=0.0;
 
     }
     public void setName(String name){
