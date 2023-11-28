@@ -13,6 +13,9 @@
         android:theme="@style/Theme.ChargeX"
         tools:targetApi="31">
         <activity
+            android:name=".ViewLocation"
+            android:exported="false" />
+        <activity
             android:name=".VerifyStations"
             android:exported="false" />
         <activity
