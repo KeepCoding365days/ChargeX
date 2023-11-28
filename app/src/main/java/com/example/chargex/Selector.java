@@ -21,7 +21,10 @@ public class Selector extends AppCompatActivity {
         Intent profile=new Intent(getApplicationContext(),SellerReg.class);
         startActivity(profile);
     }
-    public void admin_route(View v){}
+    public void admin_route(View v){
+        Intent admin=new Intent(getApplicationContext(),AdminLogIn.class);
+        startActivity(admin);
+    }
 
 
 }
