@@ -3,6 +3,7 @@ package com.example.chargex;
 import static android.content.ContentValues.TAG;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -77,10 +78,14 @@ public class User extends Person {
     }
     public void setData(){
         Map <String,Object> data=new HashMap<>();
+
         data.put("email",this.getEmail());
         data.put("name",this.getName());
         data.put("cnic",this.getCnic());
+
+
         data.put("password",Encrypt(this.getPassword()));
+
         data.put("DoB",this.getDateOfBirth());
         data.put("contactNumber",this.getContactNumber());
         data.put("noOfBookings",this.noOfBookings);

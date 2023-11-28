@@ -2,6 +2,7 @@ package com.example.chargex;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,7 +17,12 @@ import java.util.HashMap;
 import java.util.Map;
 import android.widget.Toast;
 
-public class Station {
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.arch.core.executor.ArchTaskExecutor;
+
+public class Station  {
+
+
     private String email;
     private String password;
     private String address;
@@ -199,11 +205,16 @@ public class Station {
     }
     public void setData(){
         Map<String,Object> data=new HashMap<>();
-        String email=this.getEmail();
+       String email=this.getEmail();
+
+
 
         data.put("email",this.getEmail());
+
         data.put("name",this.getName());
         data.put("address",this.getAddress());
+
+
         data.put("password",Encrypt(this.getPassword()));
         data.put("contactNumber",this.getContactNumber());
         data.put("longitude",this.getLongitude());

@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StationProfile extends AppCompatActivity {
     private Station station;
@@ -64,6 +65,31 @@ public class StationProfile extends AppCompatActivity {
         station.setEmail(t.getText().toString());
         t=findViewById(R.id.stationPhone);
         station.setNumber(t.getText().toString());
+        String email=station.getEmail();
+        boolean isPresent=false;
+        for(int i=0;i<email.length();i++) {
+            if(email.charAt(i)=='@')
+                isPresent=true;
+        }
+        if(!isPresent) {
+            Toast.makeText(StationProfile.this,"Invalid email format.@ is missing",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String ending=".com";
+        int index=0;
+        for(int i=email.length()-4;i<email.length();i++) {
+            if(email.charAt(i)!=ending.charAt(index)){
+                Toast.makeText(StationProfile.this,"Invalid email.It should end with .com",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            index++;
+        }
+        String pw=station.getPassword();
+        if(pw.length()<8) {
+            Toast.makeText(StationProfile.this,"Password has to be atleast 8 characters",Toast.LENGTH_SHORT).show();
+            return;
+        }
         station.setData();
         Intent idx=new Intent(getApplicationContext(),StationIndex.class);
         startActivity(idx);

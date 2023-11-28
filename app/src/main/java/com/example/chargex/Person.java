@@ -1,5 +1,7 @@
 package com.example.chargex;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Date;
 
 public class Person {

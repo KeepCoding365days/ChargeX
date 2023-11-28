@@ -46,6 +46,7 @@ public class SignUp extends AppCompatActivity {
                  Toast.makeText(this,"Invalid email.It should end with .com",Toast.LENGTH_SHORT).show();
                  return;
              }
+             index++;
         }
         if(pw.length()<8) {
             Toast.makeText(this,"Password has to be atleast 8 characters",Toast.LENGTH_SHORT).show();
