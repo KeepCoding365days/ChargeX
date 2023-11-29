@@ -66,8 +66,8 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
             station.getAccount(username, new callback() {
                         @Override
                         public void onSuccess(String result) {
-                            station.setLongitude(stationLocation.latitude);
-                            station.setLatitude(stationLocation.longitude);
+                            station.setLongitude(stationLocation.longitude);
+                            station.setLatitude(stationLocation.latitude);
                             station.setData();
                             goProfile();
                         }
