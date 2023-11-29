@@ -20,7 +20,9 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -36,6 +38,9 @@ import android.Manifest;
 public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
     private List<Station> stationList;
     private LatLng userLocation;
+    private LatLng stationLocation;
+
+    private Boolean stationsSorted=false;
 
     GoogleMap map;
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -45,12 +50,6 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
 
         stationList=new ArrayList<>();
 
-        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        if(mapFragment!=null){
-            mapFragment.getMapAsync(this);}
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        checkLocationPermission();*/
         getMachines(new callback() {
 
 
@@ -82,6 +81,8 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
                         }
                     }
                 }
+                stationsSorted=true;
+                onMapReady(map);
                 //all station with free slots will have their data stored in stationList.
             }
 
@@ -92,6 +93,12 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
         });
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_slot);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        if(mapFragment!=null){
+            mapFragment.getMapAsync(this);}
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        checkLocationPermission();
 
 
     }
@@ -192,47 +199,140 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
-        if(stationList.size()==0){
-            Log.d("BookSlotActivity", "Stations not found");
+        if(stationsSorted) {
+            if (stationList.size() == 0) {
+                Log.d("BookSlotActivity", "Stations not found");
+            } else {
+                Log.d("BookSlotActivity", "Stations Found");
+                Log.d("Stations", "Number of stations: " + stationList.size());
+                Log.d("Stations", "User Location: " + userLocation.latitude + ", " + userLocation.longitude);
+                Log.d("Stations", "station Location: " + stationList.get(0).getLatitude() + ", " + stationList.get(0).getLatitude());
+
+
+            }
+
+            if (map != null) {
+                map.getUiSettings().setMyLocationButtonEnabled(true);
+                for (int i = 0; i < 5; i++) {
+                    if (i >= stationList.size())
+                        break;
+                    LatLng location = new LatLng(stationList.get(i).getLatitude(), stationList.get(i).getLongitude());
+                    MarkerOptions options;
+                    if (i == 0) {
+                        options = new MarkerOptions().position(location).title("Closest Station");
+                    } else if (i == 1) {
+                        options = new MarkerOptions().position(location).title("Second Closest Station");
+                    } else if (i == 2) {
+                        options = new MarkerOptions().position(location).title("Third Closest Station");
+                    } else if (i == 3) {
+                        options = new MarkerOptions().position(location).title("Fourth Closest Station");
+                    } else {
+                        options = new MarkerOptions().position(location).title("Fifth Closest station");
+                    }
+
+
+                    if (i == 0 || i == 1) {
+                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                    } else if (i == 2 || i == 3) {
+                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                    } else
+                        options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                    if (i == 0) {
+                        stationLocation = new LatLng(stationList.get(i).getLatitude(), stationList.get(i).getLongitude());
+
+                        // Add a polygon
+                        PolygonOptions polygonOptions = new PolygonOptions()
+                                .add(userLocation, stationLocation)
+                                 // You can customize the color
+                                .strokeWidth(5);  // You can customize the width
+
+                        map.addPolygon(polygonOptions);
+                    }
+                    map.addMarker(options);
+                    Log.d("marker", "Marker Added");
+                }
+            }
+
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    // Update userLocation when the map is clicked
+                    userLocation = latLng;
+                    map.clear(); // Clear the map to remove previous markers and polygons
+                    MarkerOptions options=new MarkerOptions().position(userLocation).title("My location");
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    map.addMarker(options);
+                    for(int i=0;i< stationList.size()-1;i++){
+                        for(int j=0;j<stationList.size()-1;j++){
+                            double firstValue=Math.sqrt(Math.pow(stationList.get(j).getLatitude()- userLocation.latitude,2)+Math.pow(stationList.get(j).getLongitude()-userLocation.longitude,2));
+                            double secondValue=Math.sqrt(Math.pow(stationList.get(j+1).getLatitude()- userLocation.latitude,2)+Math.pow(stationList.get(j+1).getLongitude()-userLocation.longitude,2));
+                            if(firstValue>secondValue){
+                                Station temp=stationList.get(j);
+                                stationList.set(j,stationList.get(j+1));
+                                stationList.set(j+1,temp);
+
+                            }
+                        }
+                    }
+                    onMapReady(map); // Add markers and polygon with the updated user location
+                    return;
+                }
+            });
+
+            map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    map.clear();
+                    MarkerOptions options=new MarkerOptions().position(userLocation).title("My location");
+                    options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                    map.addMarker(options);
+                    if (map != null) {
+                        map.getUiSettings().setMyLocationButtonEnabled(true);
+                        for (int i = 0; i < 5; i++) {
+                            if (i >= stationList.size())
+                                break;
+                            LatLng location = new LatLng(stationList.get(i).getLatitude(), stationList.get(i).getLongitude());
+
+                            if (i == 0) {
+                                options = new MarkerOptions().position(location).title("Closest Station");
+                            } else if (i == 1) {
+                                options = new MarkerOptions().position(location).title("Second Closest Station");
+                            } else if (i == 2) {
+                                options = new MarkerOptions().position(location).title("Third Closest Station");
+                            } else if (i == 3) {
+                                options = new MarkerOptions().position(location).title("Fourth Closest Station");
+                            } else {
+                                options = new MarkerOptions().position(location).title("Fifth Closest station");
+                            }
+
+
+                            if (i == 0 || i == 1) {
+                                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+                            } else if (i == 2 || i == 3) {
+                                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
+                            } else
+                                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                            if (i == 0) {
+                                stationLocation = marker.getPosition();
+
+                                // Add a polygon
+                                PolygonOptions polygonOptions = new PolygonOptions()
+                                        .add(userLocation, stationLocation)
+                                        // You can customize the color
+                                        .strokeWidth(5);  // You can customize the width
+
+                                map.addPolygon(polygonOptions);
+                            }
+                            map.addMarker(options);
+
+                            // Return false to indicate that we have not consumed the event and that we wish for the default behavior to occur
+
+                        }
+                    }
+                    return false;}
+            });
         }
-        else {
-            Log.d("BookSlotActivity", "Stations Found");
-        }
 
-        if(map!=null){
-            map.getUiSettings().setMyLocationButtonEnabled(true);}
-        for(int i=0;i<5;i++){
-            if(i>=stationList.size())
-                break;
-            LatLng location=new LatLng(stationList.get(i).getLatitude(),stationList.get(i).getLongitude());
-            MarkerOptions options;
-            if(i==0) {
-                 options=new MarkerOptions().position(location).title("Closest Station");
-            }
-           else if(i==1){
-                options=new MarkerOptions().position(location).title("Second Closest Station");
-            }
-           else if(i==2) {
-                 options=new MarkerOptions().position(location).title("Third Closest Station");
-            }
-           else if(i==3){
-                options=new MarkerOptions().position(location).title("Fourth Closest Station");
-            }
-            else{
-                options=new MarkerOptions().position(location).title("Fifth Closest station");
-            }
-
-
-            if(i==0||i==1) {
-                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-            }
-            else if(i==2||i==3) {
-                options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_YELLOW));
-            }
-            else  options.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
-
-            map.addMarker(options);
-        }
 
     }
 
