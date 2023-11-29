@@ -18,7 +18,7 @@ public class ViewLocation extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent i=getIntent();
-        location = new LatLng(i.getDoubleExtra("latitude", 31.54), i.getDoubleExtra("longitude", 74.34));
+        location = new LatLng(10,10);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_location);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

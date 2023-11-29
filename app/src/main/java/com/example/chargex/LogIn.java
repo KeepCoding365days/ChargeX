@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -58,6 +59,7 @@ public class LogIn extends AppCompatActivity {
                             Log.d(TAG,"password checked");
                         }
                         else {
+
                             Log.d(TAG, "password is wrong");
                         }
                     }
