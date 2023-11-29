@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class StationLogin extends AppCompatActivity {
 
@@ -22,10 +23,20 @@ public class StationLogin extends AppCompatActivity {
     public void logIn(View v){
         Station station=new Station();
         TextView input=findViewById(R.id.stationName);
+        String name=input.toString();
+        if(name.length()==0){
+            Toast.makeText(StationLogin.this,"Enter name", Toast.LENGTH_SHORT).show();
+            return;
+        }
         station.getAccount(input.getText().toString(), new callback() {
             @Override
             public void onSuccess(String result) {
                 TextView input=findViewById(R.id.stationPassword);
+                String pw=input.toString();
+                if(pw.length()==0){
+                    Toast.makeText(StationLogin.this,"Enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 Log.d(TAG,"logIn done");
                 Log.d(TAG,"pw is:"+station.getPassword());
                 if(station.getPassword().equals(input.getText().toString())){
@@ -44,9 +55,19 @@ public class StationLogin extends AppCompatActivity {
                         startActivity(index);
                     }
                 }
+                else{
+                    Toast.makeText(StationLogin.this,"Account not found", Toast.LENGTH_SHORT).show();
+                }
             }
             @Override
             public void onFailure(Exception e) {
+                TextView input=findViewById(R.id.stationPassword);
+                String pw=input.toString();
+                if(pw.length()==0){
+                    Toast.makeText(StationLogin.this,"Enter password", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Toast.makeText(StationLogin.this,"Account not found", Toast.LENGTH_SHORT).show();
                 Log.d(TAG,"logIn failed");
             }
         });
