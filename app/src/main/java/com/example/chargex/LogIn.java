@@ -54,8 +54,8 @@ public class LogIn extends AppCompatActivity {
                             editor.putString("role","user");
                             editor.putString("username",email);
                             editor.apply();
-                            Intent profile=new Intent(getApplicationContext(),Profile.class);
-                            startActivity(profile);
+                            Intent idx=new Intent(getApplicationContext(),CustomerIndex.class);
+                            startActivity(idx);
                             Log.d(TAG,"password checked");
                         }
                         else {

@@ -1,5 +1,7 @@
 package com.example.chargex;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -41,15 +43,13 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
     protected void onCreate(Bundle savedInstanceState) {
 
         stationList=new ArrayList<>();
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_slot);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         if(mapFragment!=null){
             mapFragment.getMapAsync(this);}
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        checkLocationPermission();
+        checkLocationPermission();*/
         getMachines(new callback() {
 
 
@@ -86,9 +86,12 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
 
             @Override
             public void onFailure(Exception e) {
-
+                    Log.d(TAG,"data fetch failed");
             }
         });
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_book_slot);
+
 
     }
 
@@ -148,35 +151,37 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
 
     public void getMachines(callback async){
         FirebaseFirestore db= FirebaseFirestore.getInstance();
-        db.collection("Stations")
-                .whereEqualTo("status","Free").get()
+        db.collection("Station")
+                .whereEqualTo("status","verified").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()){
                             int tot_tasks=task.getResult().size();
+                            Log.d(TAG,"total tasks are"+tot_tasks);
                             final int[] tasks_completed = {0};
-                        for(QueryDocumentSnapshot doc:task.getResult()){
-                            Station station=new Station();
-                            station.getAccount(doc.getData().get("station").toString(), new callback() {
-                                @Override
-                                public void onSuccess(String result) {
-                                    stationList.add(station);
-                                    tasks_completed[0]++;
-                                    if(tasks_completed[0]==tot_tasks){
-                                        async.onSuccess("All stations added");
+                            for(QueryDocumentSnapshot doc:task.getResult()){
+                                Station station=new Station();
+                                //Log.d(TAG,"documnet retrived is:"+doc.getData().get("station").toString());
+                                station.getAccount(doc.getData().get("name").toString(), new callback() {
+                                    @Override
+                                    public void onSuccess(String result) {
+                                        stationList.add(station);
+                                        tasks_completed[0]++;
+                                        if(tasks_completed[0]==tot_tasks){
+                                            async.onSuccess("All stations added");
+                                        }
+                                        else{
+                                            async.onFailure(new Exception("data not fetched"));
+                                        }
                                     }
-                                    else{
-                                        async.onFailure(new Exception("data not fetched"));
+
+                                    @Override
+                                    public void onFailure(Exception e) {
+
                                     }
-                                }
-
-                                @Override
-                                public void onFailure(Exception e) {
-
-                                }
-                            });
-                        }
+                                });
+                            }
                         }
                     }
                 });
