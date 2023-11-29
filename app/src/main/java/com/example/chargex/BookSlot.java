@@ -148,8 +148,8 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
 
     public void getMachines(callback async){
         FirebaseFirestore db= FirebaseFirestore.getInstance();
-        db.collection("Stations").document("*")
-                .collection("ChargingStations").whereEqualTo("status","Free").get()
+        db.collection("Stations")
+                .whereEqualTo("status","Free").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
