@@ -35,8 +35,14 @@ public class StationLogin extends AppCompatActivity {
                     editor.putString("role","user");
                     editor.putString("username",station.getName());
                     editor.apply();
-                    Intent index=new Intent(getApplicationContext(),StationIndex.class);
-                    startActivity(index);
+                    if(station.getStatus().equals("verified")){
+                        Intent dashboard=new Intent(getApplicationContext(), StationDashboard.class);
+                        startActivity(dashboard);
+                    }
+                    else {
+                        Intent index = new Intent(getApplicationContext(), StationIndex.class);
+                        startActivity(index);
+                    }
                 }
             }
             @Override

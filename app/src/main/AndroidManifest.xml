@@ -13,6 +13,18 @@
         android:theme="@style/Theme.ChargeX"
         tools:targetApi="31">
         <activity
+            android:name=".BookSlot"
+            android:exported="false" />
+        <activity
+            android:name=".AddSlot"
+            android:exported="false" />
+        <activity
+            android:name=".AddMachine"
+            android:exported="false" />
+        <activity
+            android:name=".StationDashboard"
+            android:exported="false" />
+        <activity
             android:name=".ViewLocation"
             android:exported="false" />
         <activity

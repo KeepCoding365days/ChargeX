@@ -69,13 +69,13 @@ public class setLocation extends AppCompatActivity implements OnMapReadyCallback
                             station.setLongitude(stationLocation.latitude);
                             station.setLatitude(stationLocation.longitude);
                             station.setData();
-                            //goProfile();
+                            goProfile();
                         }
 
                         @Override
                         public void onFailure(Exception e) {
                             Log.d(TAG,"station fetching failed");
-                            //goProfile();
+                            goProfile();
                         }
                     });
                     //Log.d(TAG,"Longitude is "+ station.getLongitude());
