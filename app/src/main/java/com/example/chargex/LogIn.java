@@ -32,8 +32,14 @@ public class LogIn extends AppCompatActivity {
     }
     public void login(View v){
         TextView email_view=findViewById(R.id.login_email);
+        if(email_view==null){
+
+                Toast.makeText(LogIn.this,"Enter email", Toast.LENGTH_SHORT).show();
+                return;
+
+        }
         String email=email_view.getText().toString();
-        if(email.length()==0) {
+        if(email==null||email.length()==0) {
             Toast.makeText(LogIn.this,"Enter email", Toast.LENGTH_SHORT).show();
             return;
         }
