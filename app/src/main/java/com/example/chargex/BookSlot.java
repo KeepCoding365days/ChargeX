@@ -24,6 +24,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.Filter;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -152,7 +153,9 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
     public void getMachines(callback async){
         FirebaseFirestore db= FirebaseFirestore.getInstance();
         db.collection("Station")
-                .whereEqualTo("status","verified").get()
+                .where(Filter.and(Filter.equalTo("status","verified"),
+                        Filter.greaterThan("machineCount",0)))
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -186,7 +189,6 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
                     }
                 });
     }
-
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         map = googleMap;
