@@ -33,17 +33,17 @@ public class StationLogin extends AppCompatActivity {
             public void onSuccess(String result) {
                 TextView input=findViewById(R.id.stationPassword);
                 String pw=input.toString();
-                if(pw.length()==0){
+                /*if(pw.length()==0){
                     Toast.makeText(StationLogin.this,"Enter password", Toast.LENGTH_SHORT).show();
                     return;
-                }
+                }*/
                 Log.d(TAG,"logIn done");
                 Log.d(TAG,"pw is:"+station.getPassword());
                 if(station.getPassword().equals(input.getText().toString())){
                     SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("loggedIn", "True");
-                    editor.putString("role","user");
+                    editor.putString("role","station");
                     editor.putString("username",station.getName());
                     editor.apply();
                     if(station.getStatus().equals("verified")){

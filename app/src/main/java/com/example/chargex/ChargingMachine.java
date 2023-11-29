@@ -59,6 +59,21 @@ public class ChargingMachine {
         DocumentReference doc=db.collection("Station"). document(this.getStation().getName()
                 ).collection("ChargingMachines").document(String.valueOf(this.getId()));
         doc.set(data);
+
+        Station station=new Station();
+        station.getAccount(this.getStation().getName().toString(), new callback() {
+            @Override
+            public void onSuccess(String result) {
+                station.setMachineCount(station.getMachineCount()+1);
+                station.setData();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+
+            }
+        });
+
     }
     public void setSlotData(String station){
         FirebaseFirestore db=FirebaseFirestore.getInstance();
