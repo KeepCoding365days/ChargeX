@@ -24,6 +24,7 @@ public class Station  {
 
 
     private String email;
+    private int machineCount;
     private String password;
     private String address;
     private double longitude;
@@ -43,7 +44,7 @@ public class Station  {
         avg_rating=0.0;
         latitude=0.0;
         longitude=0.0;
-
+        machineCount=0;
     }
     public void setName(String name){
         this.name=name;
@@ -70,6 +71,13 @@ public class Station  {
     public void setLongitude(double longitude){this.longitude=longitude;}
 
     public void setLatitude(double latitude){this.latitude=latitude;}
+
+    public void setMachineCount(int machineCount){
+        this.machineCount=machineCount;
+    }
+    public int getMachineCount(){
+        return this.machineCount;
+    }
     public String getName(){
         return this.name;
     }
@@ -174,9 +182,16 @@ public class Station  {
                             Log.d(TAG,"longitude is set");
                             setLongitude((double)(data.get("longitude")));
                         }
+                        if(data.containsKey("machineCount")){
+                            Log.d(TAG,"longitude is set");
+                            setMachineCount(Integer.parseInt(data.get("machineCount").toString()));
+                        }
                         if(data.containsKey("latitude")){
                             Log.d(TAG,"latitude is set");
                             setLatitude((double)(data.get("latitude")));
+                        }
+                        if(data.containsKey("address")){
+                            setAddress(data.get("address").toString());
                         }
                         if(data.containsKey("address")){
                             setAddress(data.get("address").toString());
@@ -221,6 +236,7 @@ public class Station  {
         data.put("longitude",this.getLongitude());
         data.put("latitude",this.getLatitude());
         data.put("status",this.getStatus());
+        data.put("machineCount",this.getMachineCount());
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         DocumentReference doc=db.collection("Station").document(this.getName());
         doc.set(data);
