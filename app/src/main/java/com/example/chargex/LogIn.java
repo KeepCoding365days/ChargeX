@@ -33,8 +33,17 @@ public class LogIn extends AppCompatActivity {
     public void login(View v){
         TextView email_view=findViewById(R.id.login_email);
         String email=email_view.getText().toString();
+        if(email.length()==0) {
+            Toast.makeText(LogIn.this,"Enter email", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         TextView pw_view=findViewById(R.id.loginPassword);
         String pw=pw_view.getText().toString();
+        if(pw.length()==0){
+            Toast.makeText(LogIn.this,"Enter password", Toast.LENGTH_SHORT).show();
+            return;
+        }
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         DocumentReference doc= db.collection("Person").document(email);
         doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>(){
@@ -59,10 +68,11 @@ public class LogIn extends AppCompatActivity {
                             Log.d(TAG,"password checked");
                         }
                         else {
-
+                            Toast.makeText(LogIn.this,"Account not found", Toast.LENGTH_SHORT).show();
                             Log.d(TAG, "password is wrong");
                         }
                     }
+                    else Toast.makeText(LogIn.this,"Account not found", Toast.LENGTH_SHORT).show();
                 }
             }
         });
