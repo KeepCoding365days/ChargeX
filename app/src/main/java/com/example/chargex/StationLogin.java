@@ -23,7 +23,16 @@ public class StationLogin extends AppCompatActivity {
     public void logIn(View v){
         Station station=new Station();
         TextView input=findViewById(R.id.stationName);
-        String name=input.toString();
+        if(input== null)
+        {
+            Toast.makeText(StationLogin.this,"Enter name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (input.getText() == null || input.getText().equals("")) {
+            Toast.makeText(StationLogin.this,"Enter name", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String name=input.getText().toString();
         if(name.length()==0){
             Toast.makeText(StationLogin.this,"Enter name", Toast.LENGTH_SHORT).show();
             return;
