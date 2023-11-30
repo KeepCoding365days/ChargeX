@@ -208,7 +208,7 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
                 Log.d("BookSlotActivity", "Stations Found");
                 Log.d("Stations", "Number of stations: " + stationList.size());
                 Log.d("Stations", "User Location: " + userLocation.latitude + ", " + userLocation.longitude);
-                Log.d("Stations", "station Location: " + stationList.get(0).getLatitude() + ", " + stationList.get(0).getLatitude());
+
 
 
             }
@@ -251,6 +251,7 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
                         map.addPolygon(polygonOptions);
                     }
                     map.addMarker(options);
+                    Log.d("Stations", "station Location: " + stationLocation.latitude + ", " + stationLocation.longitude);
                     Log.d("marker", "Marker Added");
                 }
             }
@@ -326,7 +327,7 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
                                 map.addPolygon(polygonOptions);
                             }
                             map.addMarker(options);
-
+                            Log.d("Stations", "station Location: " + stationLocation.latitude + ", " + stationLocation.longitude);
                             // Return false to indicate that we have not consumed the event and that we wish for the default behavior to occur
 
                         }

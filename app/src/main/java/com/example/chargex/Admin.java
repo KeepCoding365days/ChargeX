@@ -20,6 +20,7 @@ public class Admin extends Person{
         super();
         address="";
     }
+
     public void setAddress(String address){
         this.address=address;
     }

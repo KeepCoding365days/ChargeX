@@ -17,6 +17,8 @@ import com.google.firestore.admin.v1.Index;
 
 public class AdminLogIn extends AppCompatActivity {
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,4 +71,9 @@ public class AdminLogIn extends AppCompatActivity {
         });
     }
 
+
+    public void signUp(View v){
+        Intent profile=new Intent(getApplicationContext(),SignUp.class);
+        startActivity(profile);
+    }
 }
