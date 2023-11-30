@@ -20,6 +20,8 @@ public class StationRecord extends Station{
         super();
         machineList=new ArrayList<>();
     }
+    public List<ChargingMachine> getMachineList(){return this.machineList;}
+
     public void getMachines(callback async){
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         db.collection("Station").document(this.getName()).
@@ -42,7 +44,7 @@ public class StationRecord extends Station{
                                 }
                                 if(doc.contains("price")){
                                     machine.setPrice(Double.parseDouble(
-                                            doc.getData().get("proce").toString()
+                                            doc.getData().get("price").toString()
                                     ));
                                 }
                                 if(doc.contains("station")){

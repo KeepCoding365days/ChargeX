@@ -30,22 +30,25 @@ public class showMachinesUser extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Latitude=getIntent().getDoubleExtra("latitude",31.5497);
-        Longitude=getIntent().getDoubleExtra("longitude",74.3436);
+        Longitude=getIntent().getDoubleExtra("longitude",78.3436);
         Log.d(TAG,"Longitude is:"+Longitude);
         Log.d(TAG,"Latitude is:"+Latitude);
         count=0;
         machineList=new ArrayList<>();
-        final String Name[] = new String[0];
+        final String Name[] = new String[1];
         StationRecord record=new StationRecord();
+        super.onCreate(savedInstanceState);
         getStation(Name, new callback() {
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG,"Selected station is:"+Name[0]);
+                record.setName(Name[0]);
                 record.getMachines(new callback() {
 
                     @Override
                     public void onSuccess(String result) {
                         Log.d(TAG,"machines fetched are"+record.machineList.size());
+                        machineList=record.getMachineList();
                         updateUI();
 
                     }
@@ -62,7 +65,7 @@ public class showMachinesUser extends AppCompatActivity {
                 Log.d(TAG,"Selected not found:"+Name[0]);
             }
         });
-        super.onCreate(savedInstanceState);
+
 
 
         Log.d(TAG,"Machine fetched start");
@@ -84,9 +87,9 @@ public class showMachinesUser extends AppCompatActivity {
             v = findViewById(R.id.machineID);
             v.setText("ID: " + machineList.get(count).getId());
             v = findViewById(R.id.machineSpeed);
-            v.setText("Speed" + machineList.get(count).getChargingSpeed()+"KW/h");
+            v.setText("Speed" + machineList.get(count).getChargingSpeed());
             v = findViewById(R.id.machinePrice);
-            v.setText("Rate: " + machineList.get(count).getPrice()+"PKR/h");
+            v.setText("Rate: " + machineList.get(count).getPrice());
             v = findViewById(R.id.stationAddress);
             v.setText("Address: " + machineList.get(count).getStation().getAddress());
         }
@@ -96,20 +99,7 @@ public class showMachinesUser extends AppCompatActivity {
         }
     }
 
-    /*public void populate(){
-        getStations(new callback() {
-            @Override
-            public void onSuccess(String result) {
-                Log.d(TAG,"Count is");
-                updateUI();
-            }
 
-            @Override
-            public void onFailure(Exception e) {
-
-            }
-        });
-    }*/
 
     public void getStation(final String Name[],callback async){
 
@@ -127,7 +117,9 @@ public class showMachinesUser extends AppCompatActivity {
                                 Station station=new Station();
                                 Log.d(TAG,"staion name is"+document.getData().get("name").toString());
                                 Name[0] =document.getData().get("name").toString();
+
                             }
+                            async.onSuccess("station fetched");
 
                         }
                         else{
