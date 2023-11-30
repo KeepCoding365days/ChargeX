@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -39,6 +40,10 @@ public class VerifyStations extends AppCompatActivity {
         }
     }
     public void verify(View v){
+        if(stationList.size()==0){
+            Toast.makeText(this,"No stations left to be verified", Toast.LENGTH_SHORT).show();
+            return;
+        }
         stationList.get(count).setStatus("verified");
         stationList.get(count).setData();
         Intent i=new Intent(getApplicationContext(), VerifyStations.class);
