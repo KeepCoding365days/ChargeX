@@ -6,10 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -351,6 +353,13 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
             default:
                 return BitmapDescriptorFactory.HUE_RED;
         }
+    }
+
+    public void showMachines(View v){
+        Intent i=new Intent(this,showMachinesUser.class);
+        i.putExtra("longitude",userLocation.longitude);
+        i.putExtra("latitude",userLocation.latitude);
+        startActivity(i);
     }
 
     // Create a custom BitmapDescriptor with the specified color
