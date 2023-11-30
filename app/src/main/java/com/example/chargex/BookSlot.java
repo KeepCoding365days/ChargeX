@@ -3,6 +3,7 @@ package com.example.chargex;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -19,22 +20,23 @@ public class BookSlot extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_slot);
     }
-    public void addSlot(View v){
+
+    public void moveStations(View v){
         SharedPreferences preferences=getSharedPreferences("user_data", Context.MODE_PRIVATE);
         String username=preferences.getString("username","customer");
         Slot slot=new Slot();
         TextView view=findViewById(R.id.slotStartTime);
-        slot.setStartTime(LocalTime.parse(view.getText().toString()));
+        String startTime=view.getText().toString();
         view=findViewById(R.id.slotEndTime);
-        slot.setEndTime(LocalTime.parse(view.getText().toString()));
+        String endTime=view.getText().toString();
         view=findViewById(R.id.slotDate);
-        slot.setDate(LocalDate.parse(view.getText().toString()));
-        slot.setUser(username);
-        slot.setStation("10XCharger");
-        slot.setMachine_id(1);
-        slot.setData();
+        String date=view.getText().toString();
 
-
+        Intent i=new Intent(getApplicationContext(), ViewStations.class);
+        i.putExtra("startTime",startTime);
+        i.putExtra("endTime",endTime);
+        i.putExtra("date",date);
+        startActivity(i);
 
 
     }

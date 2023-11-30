@@ -41,7 +41,9 @@ public class ViewStations extends AppCompatActivity implements OnMapReadyCallbac
     private List<Station> stationList;
     private LatLng userLocation;
     private LatLng stationLocation;
-
+    private String date;
+    private String endTime;
+    private String startTime;
     private Boolean stationsSorted=false;
 
     GoogleMap map;
@@ -51,6 +53,13 @@ public class ViewStations extends AppCompatActivity implements OnMapReadyCallbac
     protected void onCreate(Bundle savedInstanceState) {
 
         stationList=new ArrayList<>();
+        date=getIntent().getStringExtra("date");
+        startTime=getIntent().getStringExtra("startTime");
+        endTime=getIntent().getStringExtra("endTime");
+        Log.d(TAG,"start time is:"+startTime);
+        Log.d(TAG,"end time is:"+endTime);
+        Log.d(TAG,"date is:"+date);
+
 
         getMachines(new callback() {
 
@@ -360,6 +369,10 @@ public class ViewStations extends AppCompatActivity implements OnMapReadyCallbac
         Intent i=new Intent(this,showMachinesUser.class);
         Log.d(TAG,"long"+stationLocation.longitude);
         Log.d(TAG,"lat:"+stationLocation.latitude);
+        i.putExtra("date",date);
+        i.putExtra("startTime",startTime);
+        i.putExtra("endTime",endTime);
+
         i.putExtra("longitude",stationLocation.longitude);
         i.putExtra("latitude",stationLocation.latitude);
         startActivity(i);

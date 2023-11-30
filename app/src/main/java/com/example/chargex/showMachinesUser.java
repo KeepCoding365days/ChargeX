@@ -27,10 +27,17 @@ public class showMachinesUser extends AppCompatActivity {
     List<ChargingMachine> machineList;
     double Latitude;
     double Longitude;
+    private String date;
+    private String endTime;
+    private String startTime;
+    private String station;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Latitude=getIntent().getDoubleExtra("latitude",31.5497);
         Longitude=getIntent().getDoubleExtra("longitude",78.3436);
+        date=getIntent().getStringExtra("date");
+        startTime=getIntent().getStringExtra("startTime");
+        endTime=getIntent().getStringExtra("endTime");
         Log.d(TAG,"Longitude is:"+Longitude);
         Log.d(TAG,"Latitude is:"+Latitude);
         count=0;
@@ -43,6 +50,7 @@ public class showMachinesUser extends AppCompatActivity {
             public void onSuccess(String result) {
                 Log.d(TAG,"Selected station is:"+Name[0]);
                 record.setName(Name[0]);
+                station=Name[0];
                 record.getMachines(new callback() {
 
                     @Override
@@ -78,10 +86,15 @@ public class showMachinesUser extends AppCompatActivity {
         count++;
         updateUI();
     }
+    public void previous(View v){
+        count--;
+        updateUI();
+    }
+
 
     @SuppressLint("SetTextI18n")
     private void updateUI(){
-        if(count<machineList.size()) {
+        if(count<machineList.size() && count>=0) {
             TextView v = findViewById(R.id.stationName);
             v.setText(machineList.get(count).getStation().getName());
             v = findViewById(R.id.machineID);
@@ -129,5 +142,13 @@ public class showMachinesUser extends AppCompatActivity {
                 });
     }
 
-
+    public void checkout(View v){
+        Intent i=new Intent(getApplicationContext(), Checkout.class);
+        i.putExtra("date",date);
+        i.putExtra("startTime",startTime);
+        i.putExtra("endTime",endTime);
+        i.putExtra("station",station);
+        i.putExtra("machineId",machineList.get(count).getId());
+        startActivity(i);
+    }
 }

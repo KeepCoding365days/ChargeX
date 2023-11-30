@@ -1,28 +1,38 @@
 package com.example.chargex;
 
-import static android.content.ContentValues.TAG;
+        import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+        import static com.google.android.gms.common.util.CollectionUtils.listOf;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
+        import androidx.annotation.NonNull;
+        import androidx.annotation.Nullable;
+        import androidx.appcompat.app.AppCompatActivity;
 
-import com.stripe.android.PaymentConfiguration;
-import com.stripe.android.paymentsheet.PaymentSheet;
-import com.stripe.android.paymentsheet.PaymentSheetResult;
+        import android.os.Bundle;
+        import android.util.Log;
+        import android.view.View;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import com.stripe.android.paymentsheet.*;
+        import com.github.kittinunf.fuel.core.Body;
+        import com.stripe.android.PaymentConfiguration;
+        import com.stripe.android.paymentsheet.PaymentSheet;
+        import com.stripe.android.paymentsheet.PaymentSheetResult;
+
+        import org.json.JSONException;
+        import org.json.JSONObject;
+        import com.stripe.android.paymentsheet.*;
 
 // Add the following lines to build.gradle to use this example's networking library:
 //   implementation 'com.github.kittinunf.fuel:fuel:2.3.1'
-import com.github.kittinunf.fuel.Fuel;
-import com.github.kittinunf.fuel.core.FuelError;
-import com.github.kittinunf.fuel.core.Handler;
+        import com.github.kittinunf.fuel.Fuel;
+        import com.github.kittinunf.fuel.core.FuelError;
+        import com.github.kittinunf.fuel.core.Handler;
+
+        import java.util.ArrayList;
+        import java.util.HashMap;
+        import java.util.List;
+        import java.util.Map;
+
+        import kotlin.Pair;
 
 /*public class Checkout extends AppCompatActivity {
 
@@ -47,8 +57,23 @@ public class Checkout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
+        //Map<String,String> params=new HashMap<>();
+        //params.put("Name","Affan");
+        JSONObject json = new JSONObject();
+        try {
+            json.put("name", "affan");
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            json.put("amount",2000);
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
 
-        Fuel.INSTANCE.post("http://192.168.0.247:8080/create-payment-intent", null).responseString(new Handler<String>() {
+
+        Fuel.INSTANCE.post("http://192.168.0.101:8080/create-payment-intent",null).header("Content-Type", "application/json")
+                .body( ByteArrayBody.Companion.createFrom(json.toString().getBytes())).responseString(new Handler<String>() {
             @Override
             public void success(String s) {
                 try {
@@ -89,7 +114,7 @@ public class Checkout extends AppCompatActivity {
 
 
     private void presentPaymentSheet() {
-        final PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("Example, Inc.")
+        final PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("ChargeX.")
                 .customer(customerConfig)
                 // Set `allowsDelayedPaymentMethods` to true if your business handles payment methods
                 // delayed notification payment methods like US bank accounts.
