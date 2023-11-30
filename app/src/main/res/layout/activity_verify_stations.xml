@@ -32,8 +32,7 @@
         app:layout_constraintTop_toBottomOf="@+id/verificationStatus"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginStart="16dp"
-        app:layout_constraintMarginEnd="16dp" />
+         />
 
     <Button
         android:id="@+id/verifyButton"
@@ -45,8 +44,7 @@
         app:layout_constraintTop_toBottomOf="@+id/verificationCode"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginStart="16dp"
-        app:layout_constraintMarginEnd="16dp" />
+       />
 
     <Button
         android:id="@+id/resendButton"
@@ -58,6 +56,5 @@
         app:layout_constraintTop_toBottomOf="@+id/verifyButton"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintMarginStart="16dp"
-        app:layout_constraintMarginEnd="16dp" />
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
