@@ -29,7 +29,7 @@
             android:name=".CustomerIndex"
             android:exported="false" />
         <activity
-            android:name=".BookSlot"
+            android:name=".ViewStations"
             android:exported="false" />
         <activity
             android:name=".AddSlot"

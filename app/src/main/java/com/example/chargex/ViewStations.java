@@ -37,7 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 import android.Manifest;
 
-public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
+public class ViewStations extends AppCompatActivity implements OnMapReadyCallback {
     private List<Station> stationList;
     private LatLng userLocation;
     private LatLng stationLocation;
@@ -61,7 +61,7 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
                     Log.d("BookSlotActivity", "Stations not found");
                 }
                 else {
-                    Log.d("BookSlotActivity", "Stations Found");
+                    Log.d("BookSlotActivity", "Stations Found:"+stationList.size());
                 }
 
                 if(stationList.size()==0){
@@ -94,7 +94,7 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
             }
         });
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_book_slot);
+        setContentView(R.layout.activity_view_stations);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         if(mapFragment!=null){
