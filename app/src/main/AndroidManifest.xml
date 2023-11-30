@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ChargeX"
         tools:targetApi="31">
         <activity
+            android:name=".BookSlot"
+            android:exported="false" />
+        <activity
             android:name=".showMachinesUser"
             android:exported="false" />
         <activity

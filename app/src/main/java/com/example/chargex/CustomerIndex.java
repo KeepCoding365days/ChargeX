@@ -18,7 +18,7 @@ public class CustomerIndex extends AppCompatActivity {
         startActivity(i);
     }
     public void bookSlot(View v){
-        Intent i=new Intent(getApplicationContext(), ViewStations.class);
+        Intent i=new Intent(getApplicationContext(), BookSlot.class);
         startActivity(i);
     }
     public void checkout(View v){

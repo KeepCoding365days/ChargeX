@@ -78,7 +78,7 @@ public class ChargingMachine {
         });
 
     }
-    public void setSlotData(String station){
+    /*public void setSlotData(String station){
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         for(int i=0;i<slotsList.size();i++){
             Map<String ,Object> data=new HashMap<>();
@@ -89,7 +89,7 @@ public class ChargingMachine {
                     .collection("slots").document(slotsList.get(i).getStartTime());
             doc.set(data);
         }
-    }
+    }*/
     public void addSlot(Slot slot){
         this.slotsList.add(slot);
     }
