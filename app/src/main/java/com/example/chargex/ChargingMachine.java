@@ -12,11 +12,13 @@ public class ChargingMachine {
     private int id;
     private String status;
     private double chargingSpeed;
+    private double price;
     private List<Slot> slotsList;
     private Station station;
     public ChargingMachine(){
         status="Free";
         chargingSpeed=0.0;
+        price=0;
         slotsList= new ArrayList<>();
     }
     public void setId(int Id){
@@ -31,10 +33,12 @@ public class ChargingMachine {
     public void setStation(Station station){
         this.station=station;
     }
+    public void setPrice(double Price){this.price=Price;}
+
     public int getId(){
         return this.id;
     }
-
+    public double getPrice(){return this.price;}
     public String getStatus(){
         return this.status;
     }
@@ -51,8 +55,7 @@ public class ChargingMachine {
 
         data.put("status",this.getStatus());
         data.put("chargingSpeed",this.getChargingSpeed());
-
-
+        data.put("price",this.getPrice());
         data.put("station",this.getStation().getName());
 
         FirebaseFirestore db=FirebaseFirestore.getInstance();

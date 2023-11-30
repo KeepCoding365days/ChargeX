@@ -358,8 +358,10 @@ public class BookSlot extends AppCompatActivity implements OnMapReadyCallback {
 
     public void showMachines(View v){
         Intent i=new Intent(this,showMachinesUser.class);
-        i.putExtra("longitude",userLocation.longitude);
-        i.putExtra("latitude",userLocation.latitude);
+        Log.d(TAG,"long"+userLocation.longitude);
+        Log.d(TAG,"lat:"+userLocation.latitude);
+        i.putExtra("longitude",stationLocation.longitude);
+        i.putExtra("latitude",stationLocation.latitude);
         startActivity(i);
     }
 

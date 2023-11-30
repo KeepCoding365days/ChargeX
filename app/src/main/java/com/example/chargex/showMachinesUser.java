@@ -5,9 +5,11 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,37 +36,65 @@ public class showMachinesUser extends AppCompatActivity {
         count=0;
         machineList=new ArrayList<>();
         final String Name[] = new String[0];
+        StationRecord record=new StationRecord();
         getStation(Name, new callback() {
             @Override
             public void onSuccess(String result) {
                 Log.d(TAG,"Selected station is:"+Name[0]);
+                record.getMachines(new callback() {
+
+                    @Override
+                    public void onSuccess(String result) {
+                        Log.d(TAG,"machines fetched are"+record.machineList.size());
+                        updateUI();
+
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                        Log.d(TAG,"Machine fetched failed");
+                    }
+                });
             }
 
             @Override
             public void onFailure(Exception e) {
-
+                Log.d(TAG,"Selected not found:"+Name[0]);
             }
         });
-
         super.onCreate(savedInstanceState);
+
+
+        Log.d(TAG,"Machine fetched start");
+
+        Log.d(TAG,"Machine fetched end");
+
         setContentView(R.layout.activity_show_machines_user);
     }
-    /*private void updateUI(){
+    public void next(View v){
+        count++;
+        updateUI();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void updateUI(){
         if(count<machineList.size()) {
             TextView v = findViewById(R.id.stationName);
-            v.setText(machineList.get(count).getName());
-            v = findViewById(R.id.stationEmail);
-            v.setText("Email: " + machineList.get(count).getEmail());
-            v = findViewById(R.id.stationPhone);
-            v.setText("Phone " + machineList.get(count).getContactNumber());
+            v.setText(machineList.get(count).getStation().getName());
+            v = findViewById(R.id.machineID);
+            v.setText("ID: " + machineList.get(count).getId());
+            v = findViewById(R.id.machineSpeed);
+            v.setText("Speed" + machineList.get(count).getChargingSpeed()+"KW/h");
+            v = findViewById(R.id.machinePrice);
+            v.setText("Rate: " + machineList.get(count).getPrice()+"PKR/h");
             v = findViewById(R.id.stationAddress);
-            v.setText("Address: " + machineList.get(count).getAddress());
+            v.setText("Address: " + machineList.get(count).getStation().getAddress());
         }
         else{
-            Intent i=new Intent(getApplicationContext(), AdminIndex.class);
+            Intent i=new Intent(getApplicationContext(), CustomerIndex.class);
             startActivity(i);
         }
-    }*/
+    }
 
     /*public void populate(){
         getStations(new callback() {
@@ -105,6 +135,7 @@ public class showMachinesUser extends AppCompatActivity {
                         }
                     }
                 });
-
     }
+
+
 }
