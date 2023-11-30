@@ -52,7 +52,8 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.github.kittinunf.fuel:fuel:2.3.1")
+    implementation ("com.stripe:stripe-android:20.35.0")
     implementation("androidx.core:core-ktx:1.9.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.activity:activity-compose:1.8.0")
