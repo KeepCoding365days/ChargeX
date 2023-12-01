@@ -62,7 +62,7 @@ public class User extends Person {
                             User.super.setNumber(data.get("contactNumber").toString());
                         }
                         if(data.containsKey("noOfBookings")){
-                            setNoOfBookings((int)(data.get("noOfBookings")));
+                            setNoOfBookings(Integer.parseInt(data.get("noOfBookings").toString()));
                         }
                         async.onSuccess("Data set!");
                     }

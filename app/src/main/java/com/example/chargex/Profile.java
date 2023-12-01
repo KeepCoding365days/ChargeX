@@ -5,11 +5,15 @@ import static android.content.ContentValues.TAG;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firestore.admin.v1.Index;
 
 public class Profile extends AppCompatActivity {
     private User user;
@@ -20,9 +24,9 @@ public class Profile extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         String username=preferences.getString("username","");
         setContentView(R.layout.activity_profile);
-        update();
+        updateUI();
     }
-    public void update() {
+    public void updateUI() {
         SharedPreferences preferences = getSharedPreferences("user_data", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         String username=preferences.getString("username","");
@@ -59,4 +63,45 @@ public class Profile extends AppCompatActivity {
 
         Log.d(TAG,"data set");
     }
+    public void update(View v){
+        TextView t=findViewById(R.id.Name);
+        user.setName(t.getText().toString());
+
+        t=findViewById(R.id.email);
+        user.setEmail(t.getText().toString());
+        t=findViewById(R.id.cnic);
+        user.setCNIC(t.getText().toString());
+        t=findViewById(R.id.DoB);
+        user.setDoB(t.getText().toString());
+        String email=user.getEmail();
+        boolean isPresent=false;
+        for(int i=0;i<email.length();i++) {
+            if(email.charAt(i)=='@')
+                isPresent=true;
+        }
+        if(!isPresent) {
+            Toast.makeText(Profile.this,"Invalid email format.@ is missing",Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String ending=".com";
+        int index=0;
+        for(int i=email.length()-4;i<email.length();i++) {
+            if(email.charAt(i)!=ending.charAt(index)){
+                Toast.makeText(Profile.this,"Invalid email.It should end with .com",Toast.LENGTH_SHORT).show();
+                return;
+            }
+            index++;
+        }
+        /*String pw=station.getPassword();
+        if(pw.length()<8) {
+            Toast.makeText(StationProfile.this,"Password has to be atleast 8 characters",Toast.LENGTH_SHORT).show();
+            return;
+        }*/
+        user.setData();
+        Intent idx=new Intent(getApplicationContext(), CustomerIndex.class);
+        startActivity(idx);
+
+    }
+
 }

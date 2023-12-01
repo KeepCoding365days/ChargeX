@@ -87,7 +87,8 @@ public class Checkout extends AppCompatActivity {
         endTime=getIntent().getStringExtra("endTime");
         date=getIntent().getStringExtra("date");
         Price=getIntent().getDoubleExtra("rate",10);
-
+        station=getIntent().getStringExtra("station");
+        machineId=getIntent().getIntExtra("machineId",1);
 
         setContentView(R.layout.activity_checkout);
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
