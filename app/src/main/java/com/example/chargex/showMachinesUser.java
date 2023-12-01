@@ -156,7 +156,7 @@ public class showMachinesUser extends AppCompatActivity {
         slot.setStartTime(LocalTime.parse(startTime));
         slot.setEndTime(LocalTime.parse(endTime));
         slot.setData();
-        Intent i=new Intent(getApplicationContext(), MyBookings.class);
+        Intent i=new Intent(getApplicationContext(), BookingIndex.class);
         startActivity(i);
     }
 

@@ -17,6 +17,7 @@ public class Slot {
     private LocalTime endTime;
     private String station;
     private Integer machine_id;
+    private String status;
 
     private double price;
 
@@ -28,9 +29,11 @@ public class Slot {
         station="";
         machine_id=0;
         price=0;
+        status="unpaid";
     }
 
     public void setUser(String name){this.user=name;}
+    public void setStatus(String status){this.status=status;}
     public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
@@ -43,8 +46,10 @@ public class Slot {
     public void setMachine_id(Integer machine_id){this.machine_id=machine_id;}
     public void setPrice(double price){this.price=price;}
 
-    public double getPrice(){return this.getPrice();
+    public double getPrice(){return this.price;
     }
+    public String getStatus(){return this.status;}
+
     public String getStation(){return this.station;}
     public Integer getMachine_id(){return this.machine_id;}
     public LocalTime getStartTime() {
@@ -68,6 +73,7 @@ public class Slot {
         data.put("station",this.getStation());
         data.put("date",this.getDate().toString());
         data.put("price",this.getPrice());
+        data.put("status",this.getStatus());
 
         FirebaseFirestore db=FirebaseFirestore.getInstance();
         DocumentReference doc=db.collection("Station"). document(this.getStation()

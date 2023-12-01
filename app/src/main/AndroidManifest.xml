@@ -17,6 +17,9 @@
         android:theme="@style/Theme.ChargeX"
         tools:targetApi="31">
         <activity
+            android:name=".BookingIndex"
+            android:exported="false" />
+        <activity
             android:name=".MyBookings"
             android:exported="false" />
         <activity
