@@ -52,6 +52,8 @@ android {
 }
 
 dependencies {
+    implementation ("com.fasterxml.jackson.core:jackson-databind:2.12.5")
+    implementation("com.squareup.okhttp3:okhttp:4.9.1")
     implementation ("com.github.kittinunf.fuel:fuel:2.3.1")
     implementation ("com.stripe:stripe-android:20.35.0")
     implementation("androidx.core:core-ktx:1.9.0")
