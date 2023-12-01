@@ -8,11 +8,17 @@ package com.example.chargex;
         import androidx.annotation.Nullable;
         import androidx.appcompat.app.AppCompatActivity;
 
+        import android.content.Context;
+        import android.content.SharedPreferences;
+        import android.os.AsyncTask;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.View;
 
+        import com.fasterxml.jackson.core.JsonProcessingException;
+        import com.fasterxml.jackson.databind.ObjectMapper;
         import com.github.kittinunf.fuel.core.Body;
+        import com.google.common.net.MediaType;
         import com.stripe.android.PaymentConfiguration;
         import com.stripe.android.paymentsheet.PaymentSheet;
         import com.stripe.android.paymentsheet.PaymentSheetResult;
@@ -27,12 +33,24 @@ package com.example.chargex;
         import com.github.kittinunf.fuel.core.FuelError;
         import com.github.kittinunf.fuel.core.Handler;
 
+        import java.io.IOException;
+        import java.nio.charset.StandardCharsets;
+        import java.time.Duration;
+        import java.time.LocalTime;
         import java.util.ArrayList;
         import java.util.HashMap;
         import java.util.List;
         import java.util.Map;
 
         import kotlin.Pair;
+        import okhttp3.OkHttpClient;
+        import okhttp3.Request;
+        import okhttp3.RequestBody;
+        import okhttp3.Response;
+        import okhttp3.ResponseBody;
+        import okhttp3.Call;
+        import okhttp3.Callback;
+        import com.fasterxml.jackson.databind.ObjectMapper;
 
 /*public class Checkout extends AppCompatActivity {
 
@@ -48,6 +66,12 @@ public class Checkout extends AppCompatActivity {
     private static final String TAG = "CheckoutActivity";
     PaymentSheet paymentSheet;
     String paymentClientSecret;
+    private String startTime;
+    private String endTime;
+    private String date;
+    private String station;
+    private Integer machineId;
+    private Double Price;
 
     PaymentSheet.CustomerConfiguration customerConfig;
 
@@ -55,45 +79,82 @@ public class Checkout extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        startTime=getIntent().getStringExtra("startTime");
+        endTime=getIntent().getStringExtra("endTime");
+        date=getIntent().getStringExtra("date");
+        Price=getIntent().getDoubleExtra("rate",10);
+
+
         setContentView(R.layout.activity_checkout);
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
-        //Map<String,String> params=new HashMap<>();
-        //params.put("Name","Affan");
-        JSONObject json = new JSONObject();
-        try {
-            json.put("name", "affan");
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+        Map<String, Object> requestBody = new HashMap<>();
+        Log.d(TAG,"start Time is:"+startTime);
+        Log.d(TAG,"end Time is:"+endTime);
+        SharedPreferences preferences=getSharedPreferences("user_data", Context.MODE_PRIVATE);
+
+        Duration duration=Duration.between(LocalTime.parse(startTime),LocalTime.parse(endTime));
+        Log.d(TAG,"durationn is"+duration);
+        Log.d(TAG,"Price is"+Price);
+        Double amount= duration.toHours()*Price;
+        Log.d(TAG,"amount is"+amount);
+        amount+=(duration.toMinutes()%60)*(Price/60);
+        amount=amount*100;
+        Log.d(TAG,"amount is"+amount);
+        requestBody.put("amount", amount);
+        requestBody.put("customer",preferences.getString("username","customer"));
+
+        JSONObject json = new JSONObject(requestBody);
+        if(amount>30000) {
+            performNetworkRequest(json);
         }
-        try {
-            json.put("amount",2000);
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
+        else{
+            //toast here
         }
 
+    }
+    private void performNetworkRequest(JSONObject json) {
+        OkHttpClient client = new OkHttpClient();
+        RequestBody body = RequestBody.create(json.toString(),okhttp3.MediaType.parse("application/json"));
+        Log.d(TAG,"request body is"+json);
+        Request request = new Request.Builder()
+                .url("http://192.168.0.101:8080/create-payment-intent")
+                .header("Content-Type", "application/json")
+                .post(body)
+                .build();
 
-        Fuel.INSTANCE.post("http://192.168.0.101:8080/create-payment-intent",null).header("Content-Type", "application/json")
-                .body( ByteArrayBody.Companion.createFrom(json.toString().getBytes())).responseString(new Handler<String>() {
+        client.newCall(request).enqueue(new Callback() {
             @Override
-            public void success(String s) {
-                try {
-                    final JSONObject result = new JSONObject(s);
-                    customerConfig = new PaymentSheet.CustomerConfiguration(
-                            result.getString("customer"),
-                            result.getString("ephemeralKey")
-                    );
-                    paymentClientSecret = result.getString("clientSecret");
-                    PaymentConfiguration.init(getApplicationContext(), result.getString("publishableKey"));
-                    Log.d(TAG,"checkout is fine");
-                } catch (JSONException e) {
-                    Log.d(TAG,"an error occured!"+e);
-                }
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG, "Network request failed: " + e.getMessage(), e);
             }
 
             @Override
-            public void failure(@NonNull FuelError fuelError) {
-                Log.d(TAG,"error is:"+fuelError);
-                /* handle error */ }
+            public void onResponse(Call call, Response response) throws IOException {
+                try (ResponseBody responseBody = response.body()) {
+                    if (response.isSuccessful() && responseBody != null) {
+                        String result = responseBody.string();
+                        final JSONObject jsonResult = new JSONObject(result);
+
+                        runOnUiThread(() -> {
+                            try {
+                                customerConfig = new PaymentSheet.CustomerConfiguration(
+                                        jsonResult.getString("customer"),
+                                        jsonResult.getString("ephemeralKey")
+                                );
+                                paymentClientSecret = jsonResult.getString("clientSecret");
+                                PaymentConfiguration.init(getApplicationContext(), jsonResult.getString("publishableKey"));
+                                Log.d(TAG, "checkout is fine");
+                            } catch (JSONException e) {
+                                Log.d(TAG, "an error occurred!" + e);
+                            }
+                        });
+                    } else {
+                        Log.d(TAG, "Network request failed");
+                    }
+                } catch (JSONException e) {
+                    Log.e(TAG, "Error parsing JSON response: " + e.getMessage(), e);
+                }
+            }
         });
     }
 

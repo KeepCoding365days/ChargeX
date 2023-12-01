@@ -6,7 +6,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -19,6 +21,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,6 +145,20 @@ public class showMachinesUser extends AppCompatActivity {
                     }
                 });
     }
+    public void addSlot(View v){
+        SharedPreferences preferences=getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        Slot slot=new Slot();
+        slot.setUser(preferences.getString("username","customer"));
+        slot.setMachine_id(machineList.get(count).getId());
+        slot.setStation(machineList.get(count).getStation().getName());
+        slot.setPrice(machineList.get(count).getPrice());
+        slot.setDate(LocalDate.parse(date));
+        slot.setStartTime(LocalTime.parse(startTime));
+        slot.setEndTime(LocalTime.parse(endTime));
+        slot.setData();
+        Intent i=new Intent(getApplicationContext(), BookingIndex.class);
+        startActivity(i);
+    }
 
     public void checkout(View v){
         Intent i=new Intent(getApplicationContext(), Checkout.class);
@@ -149,6 +167,7 @@ public class showMachinesUser extends AppCompatActivity {
         i.putExtra("endTime",endTime);
         i.putExtra("station",station);
         i.putExtra("machineId",machineList.get(count).getId());
+        i.putExtra("rate",machineList.get(count).getPrice());
         startActivity(i);
     }
 }
