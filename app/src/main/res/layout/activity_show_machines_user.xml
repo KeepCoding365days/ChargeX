@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
+    android:onClick="checkout"
     android:textAlignment="gravity"
     tools:context=".showMachinesUser">
 
@@ -90,8 +91,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="27dp"
-        android:onClick="addSlot"
-        android:text="Make Booking"
+        android:onClick="checkout"
+        android:text="CheckOut"
         app:layout_constraintBottom_toTopOf="@+id/button26"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

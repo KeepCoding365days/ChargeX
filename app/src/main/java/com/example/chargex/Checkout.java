@@ -9,11 +9,13 @@ package com.example.chargex;
         import androidx.appcompat.app.AppCompatActivity;
 
         import android.content.Context;
+        import android.content.Intent;
         import android.content.SharedPreferences;
         import android.os.AsyncTask;
         import android.os.Bundle;
         import android.util.Log;
         import android.view.View;
+        import android.widget.TextView;
 
         import com.fasterxml.jackson.core.JsonProcessingException;
         import com.fasterxml.jackson.databind.ObjectMapper;
@@ -36,6 +38,7 @@ package com.example.chargex;
         import java.io.IOException;
         import java.nio.charset.StandardCharsets;
         import java.time.Duration;
+        import java.time.LocalDate;
         import java.time.LocalTime;
         import java.util.ArrayList;
         import java.util.HashMap;
@@ -73,6 +76,7 @@ public class Checkout extends AppCompatActivity {
     private Integer machineId;
     private Double Price;
 
+    private Double Amount;
     PaymentSheet.CustomerConfiguration customerConfig;
 
     @Override
@@ -95,16 +99,17 @@ public class Checkout extends AppCompatActivity {
         Duration duration=Duration.between(LocalTime.parse(startTime),LocalTime.parse(endTime));
         Log.d(TAG,"durationn is"+duration);
         Log.d(TAG,"Price is"+Price);
-        Double amount= duration.toHours()*Price;
-        Log.d(TAG,"amount is"+amount);
-        amount+=(duration.toMinutes()%60)*(Price/60);
-        amount=amount*100;
-        Log.d(TAG,"amount is"+amount);
-        requestBody.put("amount", amount);
+        Amount= duration.toHours()*Price;
+        Log.d(TAG,"amount is"+Amount);
+        Amount+=(duration.toMinutes()%60)*(Price/60);
+        Amount=Amount*100;
+        updateUI();
+        Log.d(TAG,"amount is"+Amount);
+        requestBody.put("amount", Amount);
         requestBody.put("customer",preferences.getString("username","customer"));
 
         JSONObject json = new JSONObject(requestBody);
-        if(amount>30000) {
+        if(Amount>30000) {
             performNetworkRequest(json);
         }
         else{
@@ -159,6 +164,7 @@ public class Checkout extends AppCompatActivity {
     }
 
     public void listenr(View a){
+        addSlot();
         presentPaymentSheet();
     }
     public void onPaymentSheetResult(final PaymentSheetResult paymentSheetResult) {
@@ -168,13 +174,14 @@ public class Checkout extends AppCompatActivity {
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
             Log.e(TAG, "Got error: ", ((PaymentSheetResult.Failed) paymentSheetResult).getError());
         } else if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-            // Display for example, an order confirmation screen
+            //addSlot();
             Log.d(TAG, "Completed");
         }
     }
 
 
     private void presentPaymentSheet() {
+
         final PaymentSheet.Configuration configuration = new PaymentSheet.Configuration.Builder("ChargeX.")
                 .customer(customerConfig)
                 // Set `allowsDelayedPaymentMethods` to true if your business handles payment methods
@@ -186,4 +193,34 @@ public class Checkout extends AppCompatActivity {
                 configuration
         );
     }
+    public void addSlot(){
+        SharedPreferences preferences=getSharedPreferences("user_data", Context.MODE_PRIVATE);
+        Slot slot=new Slot();
+        slot.setUser(preferences.getString("username","customer"));
+        slot.setMachine_id(machineId);
+        slot.setStation(station);
+        slot.setPrice(Price);
+        slot.setStatus("Paid");
+        slot.setDate(LocalDate.parse(date));
+        slot.setStartTime(LocalTime.parse(startTime));
+        slot.setEndTime(LocalTime.parse(endTime));
+        slot.setData();
+        //Intent i=new Intent(getApplicationContext(), BookingIndex.class);
+        //startActivity(i);
+    }
+    public void updateUI(){
+        TextView view=findViewById(R.id.slotStartTime);
+        view.setText(startTime);
+        view=findViewById(R.id.slotEndTime);
+        view.setText(endTime);
+        view=findViewById(R.id.slotStation);
+        view.setText(station);
+        view=findViewById(R.id.slotPrice);
+        view.setText(Price.toString());
+        view=findViewById(R.id.slotAmount);
+        view.setText(Amount.toString());
+
+
+    }
+
 }

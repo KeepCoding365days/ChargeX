@@ -41,13 +41,12 @@ public class Slot {
     public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
-    public void setDate(LocalDate data){this.date=date;}
+    public void setDate(LocalDate date){this.date=date;}
     public void setStation(String station){this.station=station;}
     public void setMachine_id(Integer machine_id){this.machine_id=machine_id;}
     public void setPrice(double price){this.price=price;}
 
-    public double getPrice(){return this.price;
-    }
+    public double getPrice(){return this.price;}
     public String getStatus(){return this.status;}
 
     public String getStation(){return this.station;}
@@ -81,5 +80,6 @@ public class Slot {
                 .collection("slots").document(this.getStartTime().toString()+this.getDate().toString());
         doc.set(data);
     }
+
 
 }
