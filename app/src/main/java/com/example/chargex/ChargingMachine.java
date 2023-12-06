@@ -18,7 +18,7 @@ public class ChargingMachine {
     public ChargingMachine(){
         status="Free";
         chargingSpeed=0.0;
-        price=0;
+        price=500;
         slotsList= new ArrayList<>();
     }
     public void setId(int Id){

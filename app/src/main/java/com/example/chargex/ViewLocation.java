@@ -15,9 +15,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 public class ViewLocation extends AppCompatActivity implements OnMapReadyCallback {
     private LatLng location;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        double latitude;
+        double longitude;
+
         Intent i=getIntent();
+        latitude=i.getDoubleExtra("latitude",10);
+        longitude=i.getDoubleExtra("longitude",10);
         location = new LatLng(10,10);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_location);
