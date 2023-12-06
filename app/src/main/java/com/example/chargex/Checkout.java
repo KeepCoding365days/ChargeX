@@ -123,7 +123,7 @@ public class Checkout extends AppCompatActivity {
         RequestBody body = RequestBody.create(json.toString(),okhttp3.MediaType.parse("application/json"));
         Log.d(TAG,"request body is"+json);
         Request request = new Request.Builder()
-                .url("http://192.168.0.101:8080/create-payment-intent")
+                .url("http://192.168.73.176:8080/create-payment-intent")
                 .header("Content-Type", "application/json")
                 .post(body)
                 .build();
