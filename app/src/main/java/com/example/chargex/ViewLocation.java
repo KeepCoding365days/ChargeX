@@ -25,7 +25,7 @@ public class ViewLocation extends AppCompatActivity implements OnMapReadyCallbac
         Intent i=getIntent();
         latitude=i.getDoubleExtra("latitude",10);
         longitude=i.getDoubleExtra("longitude",10);
-        location = new LatLng(10,10);
+        location = new LatLng(latitude,longitude);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_location);
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()

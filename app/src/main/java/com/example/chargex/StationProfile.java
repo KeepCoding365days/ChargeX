@@ -66,6 +66,11 @@ public class StationProfile extends AppCompatActivity {
         t=findViewById(R.id.stationPhone);
         station.setNumber(t.getText().toString());
         String email=station.getEmail();
+        String phoneno=station.getContactNumber();
+        if(phoneno.length()!=11){
+            Toast.makeText(StationProfile.this,"Phone number is 11 digits.",Toast.LENGTH_SHORT).show();
+            return;
+        }
         boolean isPresent=false;
         for(int i=0;i<email.length();i++) {
             if(email.charAt(i)=='@')

@@ -40,8 +40,19 @@ public class VerifyStations extends AppCompatActivity {
         }
     }
     public void verify(View v){
-        if(stationList.size()==0){
-            Toast.makeText(this,"No stations left to be verified", Toast.LENGTH_SHORT).show();
+        TextView input=findViewById(R.id.stationEmail);
+        if(input== null)
+        {
+            Toast.makeText(VerifyStations.this,"No statipn found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (input.getText() == null || input.getText().equals(" ")) {
+            Toast.makeText(VerifyStations.this,"No station found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String name=input.getText().toString();
+        if(name.length()==0){
+            Toast.makeText(VerifyStations.this,"No station found", Toast.LENGTH_SHORT).show();
             return;
         }
         stationList.get(count).setStatus("verified");
@@ -51,6 +62,21 @@ public class VerifyStations extends AppCompatActivity {
     }
 
     public void location_view(View v){
+        TextView input=findViewById(R.id.stationEmail);
+        if(input== null)
+        {
+            Toast.makeText(VerifyStations.this,"No statipn found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (input.getText() == null || input.getText().equals(" ")) {
+            Toast.makeText(VerifyStations.this,"No station found", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String name=input.getText().toString();
+        if(name.length()==0){
+            Toast.makeText(VerifyStations.this,"No station found", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent i=new Intent(this,ViewLocation.class);
         i.putExtra("longitude",stationList.get(count).getLongitude());
         i.putExtra("latitude",stationList.get(count).getLatitude());

@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.google.firestore.admin.v1.Index;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 public class Profile extends AppCompatActivity {
     private User user;
     @Override
@@ -71,6 +74,11 @@ public class Profile extends AppCompatActivity {
         user.setEmail(t.getText().toString());
         t=findViewById(R.id.cnic);
         user.setCNIC(t.getText().toString());
+        if(user.getCnic().length()!=13){
+            Toast.makeText(this, "CNIC must be 13 digits", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         t=findViewById(R.id.DoB);
         user.setDoB(t.getText().toString());
         String email=user.getEmail();
@@ -103,5 +111,7 @@ public class Profile extends AppCompatActivity {
         startActivity(idx);
 
     }
+
+
 
 }
